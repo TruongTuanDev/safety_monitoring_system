@@ -1,25 +1,19 @@
-# Cấu hình hệ thống
 system:
-  device: 'cpu'  # 'cuda' nếu có GPU
-  confidence_threshold: 0.5
+  device: 'cpu'
+  confidence_threshold: 0.3
   iou_threshold: 0.45
 
-# Cấu hình camera/nguồn video
 camera:
-  source: 0  # 0 cho webcam, hoặc đường dẫn file video
-  width: 640
-  height: 480
+  source: 0
+  width: 1200
+  height: 720
 
-# Cấu hình vùng nguy hiểm (tọa độ chuẩn hóa 0-1)
 danger_zones:
-  - name: "Khu vực máy móc"
+  - name: "Khu vuc nguy hiem"
     points: [[0.2, 0.2], [0.8, 0.2], [0.8, 0.8], [0.2, 0.8]]
-    color: [0, 0, 255]  # Màu đỏ
+    color: [0, 0, 255]
 
-# Cấu hình cảnh báo
 alerts:
   sound_alert: true
-  sound_file: "alert.wav"  # Để trống để dùng âm thanh mặc định
-  visual_alert: true
-  log_events: true
-  alert_cooldown: 3  # Thời gian chờ giữa các cảnh báo (giây)
+  custom_sound_file: "canhbao.wav"
+#  cooldown_seconds: 3        # ← Quan trọng: dùng tên này
