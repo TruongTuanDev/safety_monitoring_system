@@ -1,19 +1,58 @@
+# Cấu hình hệ thống
 system:
-  device: 'cpu'
-  confidence_threshold: 0.3
+  device: 'cpu'  # 'cuda' nếu có GPU
+  confidence_threshold: 0.4
   iou_threshold: 0.45
+  model_path: 'models/best.pt'
 
+# Cấu hình classes
+classes:
+  target_classes: ['helmet', 'gloves', 'vest', 'boots', 'goggles', 'person', 'no_helmet', 'no_goggle', 'no_gloves', 'no_boots']
+  alert_classes: ['person', 'no_helmet', 'no_gloves', 'no_vest', 'no_boots', 'no_goggle']  # Cảnh báo khi thiếu bảo hộ
+  safety_equipment: ['helmet', 'gloves', 'vest', 'boots', 'goggles']  # Thiết bị bảo hộ
+
+# Cấu hình camera
 camera:
   source: 0
   width: 1200
   height: 720
+  max_cameras: 8
+  default_resolution: [640, 480]
+  default_fps: 30
+  auto_reconnect: true
+  reconnect_timeout: 5
+  status_update_interval: 5  # seconds
+  max_events_history: 1000
 
+
+# Cấu hình vùng nguy hiểm
 danger_zones:
   - name: "Khu vuc nguy hiem"
     points: [[0.2, 0.2], [0.8, 0.2], [0.8, 0.8], [0.2, 0.8]]
     color: [0, 0, 255]
 
+# Cấu hình cảnh báo
 alerts:
   sound_alert: true
-  custom_sound_file: "canhbao.wav"
-#  cooldown_seconds: 3        # ← Quan trọng: dùng tên này
+  sound_file: "alert_sound.wav"
+  visual_alert: true
+  log_events: true
+  alert_cooldown: 5
+modes:
+  safety_gear:
+    enabled: true
+    check_equipment: ['helmet', 'gloves', 'vest', 'boots', 'goggles']
+  danger_zone:
+    enabled: true
+    max_zones: 5
+    camera:
+      phone_ip: "192.168.1.1"  # Thay bằng IP điện thoại
+      phone_port: 443
+      fallback_to_local: true
+
+# Cấu hình cơ sở dữ liệu (MongoDB)
+database:
+  mongo_uri: 'mongodb://localhost:27017'
+  mongo_db: 'safety_monitoring'
+  camera_collection: "cameras"
+  events_collection: "camera_events"
